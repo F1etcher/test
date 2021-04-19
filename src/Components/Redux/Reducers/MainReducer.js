@@ -1,26 +1,28 @@
-export const DATA = 'DATA'
-export const SET_LOGIN = 'SET_LOGIN'
+export const LOGIN = 'LOGIN'
+export const LOGOUT = 'LOGOUT'
 
 
 const initialState = {
-    data: [],
-    name: [],
+    user: null,
 }
 
 export const mainReducer = (state = initialState, action) => {
     switch (action.type) {
-        case DATA:
+        case LOGIN:
             return {
-                ...state, data: action.data
+                ...state, user: action.user
             }
-        case SET_LOGIN:
+        case LOGOUT:
             return {
-                ...state, login: action.login
+                ...state, user: null
             }
         default:
             return state
     }
 }
-export const setLogin = (login) => ({type: SET_LOGIN, login})
+export const login = (user) => ({type: LOGIN, user});
+export const logout = () => ({type: LOGOUT});
+
+export const selectUser = (state) => state.Users.user;
 
 

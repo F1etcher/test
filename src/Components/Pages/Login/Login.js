@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -6,8 +6,8 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {useSelector} from "react-redux";
-
+import {useDispatch} from "react-redux";
+import {login} from "../../Redux/Reducers/MainReducer";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -29,15 +29,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
-export default function SignIn() {
+export default function Login() {
+    const dispatch = useDispatch();
     const classes = useStyles();
-    const store = useSelector(state => state.Login)
+    const [name, setName] = useState("")
 
-    console.log(store)
+    const localData = localStorage.setItem("name",name)
 
-
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(login({
+            name: name,
+            loggendIn: true
+        }))
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -49,14 +54,16 @@ export default function SignIn() {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
                     <TextField
                         variant="outlined"
                         margin="normal"
                         fullWidth
+                        id="name"
                         label="Name"
-
-
+                        type="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         autoFocus
                     />
                     <Button

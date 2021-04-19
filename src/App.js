@@ -1,8 +1,9 @@
 import MainPage from "./Components/Pages/Main/Main";
-import React from "react";
+import React, {useEffect} from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import SignIn from "./Components/Pages/Login/Login";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import Login from "./Components/Pages/Login/Login";
+import {useSelector} from "react-redux";
+import {selectUser} from "./Components/Redux/Reducers/MainReducer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -13,18 +14,9 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
     const classes = useStyles();
-    return (
-        <Router>
-            <div className={classes.root}>
-                    <Route exact path="/">
-                        <SignIn/>
-                    </Route>
-                    <Route exact path="/main">
-                        <MainPage/>
-                    </Route>
-            </div>
-        </Router>
-    );
+    const user = useSelector(selectUser)
+
+    return <div className={classes.root}>{user ? <MainPage/> : <Login/>}</div>
 }
 
 export default App;

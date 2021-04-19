@@ -9,8 +9,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {useDispatch, useSelector} from "react-redux";
+import {logout, selectUser} from "../../Redux/Reducers/MainReducer";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -35,7 +37,13 @@ const useStyles = makeStyles((theme) => ({
 const cards = [1, 2, 3];
 
 export default function MainPage() {
+    const dispatch = useDispatch();
+    const user = useSelector(selectUser);
     const classes = useStyles();
+    const handleLogout = (e) => {
+        e.preventDefault();
+        dispatch(logout())
+    }
 
     return (
         <>
@@ -43,9 +51,12 @@ export default function MainPage() {
             <AppBar position="relative">
                 <Toolbar>
                     <Typography variant="h6" color="inherit" noWrap>
-                        Album layout
+                        Welcome {user.name}
                     </Typography>
                 </Toolbar>
+                <Button size="small" color="secondary" onClick={(e) => handleLogout(e)}>
+                    Loggout
+                </Button>
             </AppBar>
             <main>
                 <Container className={classes.cardGrid} maxWidth="md">
