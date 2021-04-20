@@ -32,16 +32,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const [name, setName] = useState("")
-
-    const localData = localStorage.setItem("name",name)
+    const [name,setName] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(login({
-            name: name,
-            loggendIn: true
-        }))
+        localStorage.setItem('name', name);
+        dispatch(login(name))
     }
 
     return (

@@ -3,7 +3,7 @@ export const LOGOUT = 'LOGOUT'
 
 
 const initialState = {
-    user: null,
+    user: undefined
 }
 
 export const mainReducer = (state = initialState, action) => {
@@ -20,6 +20,7 @@ export const mainReducer = (state = initialState, action) => {
             return state
     }
 }
+
 export const login = (user) => ({type: LOGIN, user});
 export const logout = () => ({type: LOGOUT});
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -37,12 +37,15 @@ const useStyles = makeStyles((theme) => ({
 const cards = [1, 2, 3];
 
 export default function MainPage() {
+
+    const [state, setState] = useState({})
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
     const classes = useStyles();
     const handleLogout = (e) => {
         e.preventDefault();
         dispatch(logout())
+        localStorage.clear()
     }
 
     return (
@@ -51,7 +54,7 @@ export default function MainPage() {
             <AppBar position="relative">
                 <Toolbar>
                     <Typography variant="h6" color="inherit" noWrap>
-                        Welcome {user.name}
+                        Welcome {user}
                     </Typography>
                 </Toolbar>
                 <Button size="small" color="secondary" onClick={(e) => handleLogout(e)}>
