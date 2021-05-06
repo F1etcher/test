@@ -1,22 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import {useDispatch, useSelector} from "react-redux";
 import {logout, selectUser} from "../../Redux/Reducers/MainReducer";
-import Popup from "../Create/Popup";
+
+import {Grid, Paper} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-
+    root: {
+        flexGrow: 1,
+    },
     cardGrid: {
         paddingTop: theme.spacing(8),
         paddingBottom: theme.spacing(8),
@@ -32,12 +29,17 @@ const useStyles = makeStyles((theme) => ({
     cardContent: {
         flexGrow: 1,
     },
+    paper: {
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
 
 }));
 
 
 export default function MainPage() {
-    const [openPopup, setOpenPopup] = useState(false);
+
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
     const classes = useStyles();
@@ -47,6 +49,7 @@ export default function MainPage() {
         localStorage.clear()
     }
 
+    const list = [1, 2, 3, 4, 5, 6]
     return (
         <>
             <CssBaseline/>
@@ -57,15 +60,19 @@ export default function MainPage() {
                     </Typography>
                 </Toolbar>
                 <Button size="small" color="secondary" onClick={(e) => handleLogout(e)}>
-                    Loggout
+                    Logout
                 </Button>
             </AppBar>
             <main>
-                <Popup
-                    openPopup={openPopup}
-                    setOpenPopup={setOpenPopup}
-                />
-                <button onClick={setOpenPopup}>add</button>
+                <div className={classes.root}>
+                    {list.map(i =>
+                        <Grid container spacing={3}>
+                            <Grid item xs>
+                                <Paper className={classes.paper}>{i.list}</Paper>
+                            </Grid>
+                        </Grid>
+                    )}
+                </div>
             </main>
         </>
     );

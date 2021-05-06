@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useDispatch} from "react-redux";
-import {login} from "../../Redux/Reducers/MainReducer";
+import {login, setUserId} from "../../Redux/Reducers/MainReducer";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -33,11 +33,15 @@ export default function Login() {
     const dispatch = useDispatch();
     const classes = useStyles();
     const [name,setName] = useState('')
+    const date = new Date()
+    const id = date.getMilliseconds()
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        localStorage.setItem('name', name);
+        localStorage.setItem('name', name,);
+        localStorage.setItem('id', id,);
         dispatch(login(name))
+        dispatch(setUserId(id))
     }
 
     return (
