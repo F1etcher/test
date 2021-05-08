@@ -1,31 +1,39 @@
-import MainPage from "./Components/Pages/Main/Main";
-import React, {useEffect, useState} from "react";
-import {makeStyles} from "@material-ui/core/styles";
-import Login from "./Components/Pages/Login/Login";
-import {useDispatch, useSelector} from "react-redux";
-import {login, selectUser} from "./Components/Redux/Reducers/MainReducer";
+import React, {useState} from "react";
+import UserPage from "./Components/Pages/Main/UserPage";
+import AddNewUser from "./Components/Pages/Create/AddNewUser";
+import {AppContext} from "./Context";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-}));
-
+const userList = [
+    {
+        id: null,
+        name: "",
+        mail: "",
+        tel: null,
+    }]
 
 function App() {
-    const classes = useStyles();
-    const dispatch = useDispatch()
-    const user = useSelector(selectUser)
+    const [users, setUsers] = useState(userList)
 
-    useEffect(() => {
-        const user = localStorage.getItem('name')
-        dispatch(login(user))
-    }, [])
-
-
-    if(user === undefined) return <div>lOADER</div>
-
-    return <div className={classes.root}>{user ? <MainPage/> : <Login/>}</div>
+    const dispatchUserEvent = (actionType, payload) => {
+        switch (actionType) {
+            case 'ADD_USER':
+                setUsers([...users, payload.newUser])
+                return;
+            case 'REMOVE_USER':
+                setUsers(users.filter(user => user.id !== payload.userId))
+                return;
+            default:
+                return;
+        }
+    }
+    return (
+        <div className="App">
+            <AppContext.Provider value={{users, dispatchUserEvent}}>
+                <UserPage/>
+                <AddNewUser/>
+            </AppContext.Provider>
+        </div>
+    );
 }
 
-export default App;
+export default App
